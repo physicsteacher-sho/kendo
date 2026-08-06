@@ -225,6 +225,25 @@ img, svg { display: block; max-width: 100%; }
 .page-top.is-visible { opacity: 1; pointer-events: auto; }
 .page-top:hover { transform: translateY(-3px); }
 
+@media (min-width: 1021px) {
+  /* Wide-screen optical alignment: expand only the header and hero canvas so
+     the title does not appear pushed toward the center on large monitors. */
+  .site-header__inner,
+  .hero__inner {
+    width: min(1360px, calc(100% - 64px));
+  }
+
+  .hero h1 {
+    max-width: 780px;
+    font-size: clamp(52px, 6vw, 96px);
+  }
+
+  .hero__lead,
+  .hero__actions {
+    max-width: 620px;
+  }
+}
+
 @media (max-width: 1020px) {
   .site-header__inner { min-height: 78px; }
   .global-nav { position: fixed; z-index: 50; inset: 112px 0 auto; max-height: 0; overflow: hidden; display: flex; flex-direction: column; align-items: stretch; gap: 0; background: rgba(16,17,15,.98); transition: max-height .35s ease; }
