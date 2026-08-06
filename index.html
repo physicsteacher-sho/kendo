@@ -226,16 +226,25 @@ img, svg { display: block; max-width: 100%; }
 .page-top:hover { transform: translateY(-3px); }
 
 @media (min-width: 1021px) {
-  /* Wide-screen optical alignment: expand only the header and hero canvas so
-     the title does not appear pushed toward the center on large monitors. */
+  /* PC版は文字ブロックだけを左へ寄せ、見出し2行目を必ず1行で表示する。 */
   .site-header__inner,
   .hero__inner {
     width: min(1360px, calc(100% - 64px));
   }
 
+  .hero__inner {
+    transform: translateX(clamp(-64px, calc(112px - 11vw), -16px));
+  }
+
   .hero h1 {
-    max-width: 780px;
-    font-size: clamp(52px, 6vw, 96px);
+    max-width: 940px;
+    font-size: clamp(52px, 5.25vw, 88px);
+    letter-spacing: .025em;
+  }
+
+  .hero h1 em {
+    display: inline-block;
+    white-space: nowrap;
   }
 
   .hero__lead,
