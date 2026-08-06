@@ -226,20 +226,32 @@ img, svg { display: block; max-width: 100%; }
 .page-top:hover { transform: translateY(-3px); }
 
 @media (min-width: 1021px) {
-  /* PC版は文字ブロックだけを左へ寄せ、見出し2行目を必ず1行で表示する。 */
-  .site-header__inner,
-  .hero__inner {
-    width: min(1360px, calc(100% - 64px));
+  /*
+    PC版は固定pxで横移動させず、画面幅と高さに応じて自動調整する。
+    タイトルの左位置・文字サイズ・横幅を fluid にすることで、
+    ノートPCから大型モニターまで同じ2行構成を保つ。
+  */
+  .hero__art img {
+    object-position: 56% center;
   }
 
   .hero__inner {
-    transform: translateX(clamp(-64px, calc(112px - 11vw), -16px));
+    width: 100%;
+    margin-inline: 0;
+    padding-left: clamp(64px, 8.5vw, 160px);
+    padding-right: clamp(40px, 5vw, 96px);
+  }
+
+  .hero__eyebrow {
+    margin-bottom: clamp(20px, 2.2vh, 30px);
   }
 
   .hero h1 {
-    max-width: 940px;
-    font-size: clamp(52px, 5.25vw, 88px);
-    letter-spacing: .025em;
+    width: max-content;
+    max-width: calc(100vw - clamp(128px, 17vw, 320px));
+    font-size: clamp(50px, min(4.8vw, 9.6vh), 90px);
+    line-height: 1.14;
+    letter-spacing: .022em;
   }
 
   .hero h1 em {
@@ -249,7 +261,7 @@ img, svg { display: block; max-width: 100%; }
 
   .hero__lead,
   .hero__actions {
-    max-width: 620px;
+    max-width: min(620px, 46vw);
   }
 }
 
