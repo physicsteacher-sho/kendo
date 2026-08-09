@@ -125,7 +125,7 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
 .sentence-line + .sentence-line { margin-top: .22em; }
 .sentence-block { text-wrap: pretty; }
 
-.keiko { padding: var(--section-y) 0; background: #0e0e0c; }
+.keiko { background: #0e0e0c; }
 .schedule-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line-dark); border-bottom: 1px solid var(--line-dark); }
 .schedule-card { min-height: 290px; display: grid; place-content: center; text-align: center; border-right: 1px solid var(--line-dark); padding: 42px 24px; }
 .schedule-card:last-child { border-right: 0; }
@@ -169,7 +169,7 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
 .card-en { margin: 24px 0 0; font-family: var(--sans); font-size: 11px; line-height: 1.75; letter-spacing: .04em; color: #6c6962; }
 
 
-.access { padding: var(--section-y) 0; background: #0b0b0a; }
+.access { background: #0b0b0a; }   /* editorial-split が高さを持つのでパディングは不要 */
 .access-panel { border-top: 1px solid var(--line-dark); padding-top: 42px; display: grid; gap: 40px; }
 .access-panel h3 { margin: 6px 0 14px; font-size: clamp(26px, 3vw, 42px); font-weight: 400; letter-spacing: .06em; }
 .access-panel p { margin: 6px 0; line-height: 1.9; color: rgba(255,255,255,.76); }
@@ -199,7 +199,6 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
 .contact-instagram span { transition: transform .25s ease; }
 
 /* CONTACT の背景：道場に掛かる幕（鍛一閃と道場訓の実物） */
-.contact { position: relative; overflow: hidden; }
 .contact-maku {
   position: absolute;
   z-index: 0;
@@ -279,6 +278,7 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
 }
 
 .reveal { opacity: 0; transform: translateY(22px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+.editorial-visual.reveal { transform: none; }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
 @media (max-width: 1180px) {
@@ -435,17 +435,21 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
 }
 
 .editorial-visual {
+  position: relative;          /* img の基準にする（min-height だけでは高さが定まらない） */
+  align-self: stretch;         /* 行の高さいっぱいに伸ばす */
   margin: 0;
   min-width: 0;
+  height: 100%;
   min-height: 720px;
   overflow: hidden;
   background: #111;
 }
 
 .editorial-visual img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  min-height: 720px;
   display: block;
   object-fit: cover;
   filter: saturate(.82) contrast(1.04);
@@ -612,13 +616,15 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
     padding: 78px var(--pad);
   }
 
-  .editorial-visual,
-  .editorial-visual img {
+  .editorial-visual {
     min-height: 0;
     height: auto;
+    align-self: auto;
   }
 
   .editorial-visual img {
+    position: static;
+    height: auto;
     aspect-ratio: 4 / 3;
   }
 
@@ -864,7 +870,7 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
     background-image: url("assets/dojo-hero-sp.jpg");
     background-image: image-set(url("assets/dojo-hero-sp.webp") type("image/webp"),
                                 url("assets/dojo-hero-sp.jpg") type("image/jpeg"));
-    transform-origin: 29% 29%;             /* 縦構図での幟の位置 */
+    transform-origin: 50% 32%;             /* 縦構図では幟が画面外になるため神棚を中心に */
     transform: scale(calc(1 + (.28 * var(--p))));
   }
   .opening-mark { width: 112px; margin-bottom: 46px; }
@@ -894,15 +900,3 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
   }
   .opening .scroll-cue { display: none; }
 }
-
-
-/* 全幅の写真バンド（木の看板） */
-.photo-band { margin: 0; display: block; line-height: 0; background: var(--ink-3); }
-.photo-band img {
-  width: 100%;
-  aspect-ratio: 3 / 1;
-  object-fit: cover;
-  filter: saturate(.85) contrast(1.03);
-}
-@media (max-width: 900px) { .photo-band img { aspect-ratio: 2.8 / 1; } }
-@media (max-width: 620px) { .photo-band img { aspect-ratio: 2.4 / 1; } }
