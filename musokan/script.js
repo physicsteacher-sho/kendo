@@ -57,3 +57,33 @@ if ('IntersectionObserver' in window) {
 } else {
   document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
 }
+
+/* --- OPENING：スクロール進行度を --p (0〜1) として渡す ------------------- */
+(function () {
+  const opening = document.querySelector('.opening');
+  if (!opening) return;
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let ticking = false;
+
+  const update = () => {
+    ticking = false;
+    if (reduce.matches) { opening.style.removeProperty('--p'); return; }
+    const rect = opening.getBoundingClientRect();
+    const travel = opening.offsetHeight - window.innerHeight;
+    if (travel <= 0) { opening.style.setProperty('--p', '0'); return; }
+    const p = Math.min(Math.max(-rect.top / travel, 0), 1);
+    opening.style.setProperty('--p', p.toFixed(4));
+  };
+
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  reduce.addEventListener('change', update);
+  update();
+})();
