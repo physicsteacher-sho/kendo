@@ -677,7 +677,7 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
    OPENING（TOP + PHILOSOPHY 統合）
    --------------------------------------------------------------------------
    1枚の写真を据えたまま、スクロールで中身を入れ替える2場面構成。
-   写真は左壁の「鍛一閃」の幟に向かって寄りながら暗転する。
+   写真は正面の神棚に向かって寄りながら暗転する。
    進行度は script.js が --p（0〜1）として与える。
    ========================================================================== */
 
@@ -706,8 +706,8 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
                               url("assets/dojo-hero.jpg") type("image/jpeg"));
   background-size: cover;
   background-position: center center;
-  transform-origin: 18% 19%;               /* 幟の位置 */
-  transform: scale(calc(1 + (.34 * var(--p))));
+  transform-origin: 50% 42%;               /* 神棚の位置 */
+  transform: scale(calc(1 + (.40 * var(--p))));
   will-change: transform;
 }
 
@@ -870,8 +870,8 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
     background-image: url("assets/dojo-hero-sp.jpg");
     background-image: image-set(url("assets/dojo-hero-sp.webp") type("image/webp"),
                                 url("assets/dojo-hero-sp.jpg") type("image/jpeg"));
-    transform-origin: 50% 32%;             /* 縦構図では幟が画面外になるため神棚を中心に */
-    transform: scale(calc(1 + (.28 * var(--p))));
+    transform-origin: 50% 40%;             /* 縦構図での神棚の位置 */
+    transform: scale(calc(1 + (.34 * var(--p))));
   }
   .opening-mark { width: 112px; margin-bottom: 46px; }
   .opening-frame-name { padding-top: 30px; }
