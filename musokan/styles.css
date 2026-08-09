@@ -198,20 +198,30 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
 }
 .contact-instagram span { transition: transform .25s ease; }
 
-/* CONTACT の背景に敷く「鍛一閃」の透かし */
-.motto-lockup {
+/* CONTACT の背景：道場に掛かる幕（鍛一閃と道場訓の実物） */
+.contact { position: relative; overflow: hidden; }
+.contact-maku {
   position: absolute;
-  right: 4%;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 88%;
-  max-height: 520px;
-  opacity: .05;
-  pointer-events: none;
   z-index: 0;
+  inset: 0;
+  pointer-events: none;
 }
-.motto-lockup img { height: 100%; width: auto; }
-.contact-inner > *:not(.motto-lockup) { position: relative; z-index: 1; }
+.contact-maku img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% center;
+  opacity: .34;
+  filter: saturate(.62) contrast(1.05);
+}
+.contact-maku::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    rgba(240,238,232,.97) 0%, rgba(240,238,232,.84) 32%, rgba(240,238,232,.42) 62%, rgba(240,238,232,.10) 100%);
+}
+.contact-inner { position: relative; z-index: 1; }
 
 .contact-instagram:hover span { transform: translate(3px,-2px); }
 
@@ -369,7 +379,6 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
   .access-panel p { line-height: 1.75; }
 
   .contact-inner { min-height: 250px; }
-  .motto-lockup { right: -18%; height: 64%; }
 
   .site-footer { padding: 52px var(--pad) 28px; gap: 26px; }
   .footer-brand img { width: 60px; }
@@ -465,14 +474,22 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
 .keiko-visual img {
   object-fit: cover;
   object-position: center 54%;
-  filter: saturate(.78) contrast(1.08) brightness(.86);
+  filter: saturate(.82) contrast(1.05) brightness(.97);
 }
 
 .keiko-visual-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(7,7,6,.78) 0%, rgba(7,7,6,.30) 50%, rgba(7,7,6,.14) 100%),
-              linear-gradient(180deg, rgba(7,7,6,.08) 0%, rgba(7,7,6,.52) 100%);
+  background:
+    /* 見出しのある左下だけを重点的に落とす */
+    radial-gradient(76% 90% at 4% 94%,
+      rgba(7,7,6,.88) 0%, rgba(7,7,6,.62) 30%, rgba(7,7,6,.24) 58%, rgba(7,7,6,0) 82%),
+    /* 左から右へ、ゆるやかに抜く */
+    linear-gradient(90deg,
+      rgba(7,7,6,.54) 0%, rgba(7,7,6,.24) 42%, rgba(7,7,6,.06) 72%, rgba(7,7,6,.02) 100%),
+    /* 上下は最小限だけ締める */
+    linear-gradient(180deg,
+      rgba(7,7,6,.14) 0%, rgba(7,7,6,.04) 44%, rgba(7,7,6,.20) 100%);
 }
 
 .keiko-visual-copy {
@@ -683,7 +700,7 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
                               url("assets/dojo-hero.jpg") type("image/jpeg"));
   background-size: cover;
   background-position: center center;
-  transform-origin: 28% 24%;               /* 幟の位置 */
+  transform-origin: 18% 19%;               /* 幟の位置 */
   transform: scale(calc(1 + (.34 * var(--p))));
   will-change: transform;
 }
@@ -847,7 +864,7 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
     background-image: url("assets/dojo-hero-sp.jpg");
     background-image: image-set(url("assets/dojo-hero-sp.webp") type("image/webp"),
                                 url("assets/dojo-hero-sp.jpg") type("image/jpeg"));
-    transform-origin: 23% 31%;             /* 縦構図での幟の位置 */
+    transform-origin: 29% 29%;             /* 縦構図での幟の位置 */
     transform: scale(calc(1 + (.28 * var(--p))));
   }
   .opening-mark { width: 112px; margin-bottom: 46px; }
@@ -877,3 +894,15 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
   }
   .opening .scroll-cue { display: none; }
 }
+
+
+/* 全幅の写真バンド（木の看板） */
+.photo-band { margin: 0; display: block; line-height: 0; background: var(--ink-3); }
+.photo-band img {
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  object-fit: cover;
+  filter: saturate(.85) contrast(1.03);
+}
+@media (max-width: 900px) { .photo-band img { aspect-ratio: 2.8 / 1; } }
+@media (max-width: 620px) { .photo-band img { aspect-ratio: 2.4 / 1; } }
