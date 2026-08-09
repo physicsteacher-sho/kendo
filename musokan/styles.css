@@ -805,19 +805,42 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
   opacity: calc((var(--p) - .46) / .34);
   transform: translateY(calc((1 - var(--p)) * 30px));
 }
+/* 中央の列を空けて神棚を避け、書は左右に振り分ける。
+   行の高さを明示し、子の高さも実寸で与える（％だと高さが循環参照になる） */
 .opening-calligraphy {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: clamp(20px, 3vw, 52px);
-  height: min(52vh, 460px);
+  --calli-h: min(56vh, 500px);
+  --gap-w: clamp(250px, 24vw, 440px);
+  display: grid;
+  grid-template-columns: 1fr var(--gap-w) 1fr;
+  grid-template-rows: var(--calli-h);
+  width: min(1180px, 100%);
+  height: var(--calli-h);
 }
-.opening-calligraphy img { filter: brightness(0) invert(1) drop-shadow(0 3px 22px rgba(0,0,0,.5)); }
-.opening-calligraphy .tan-issen { height: 100%; width: auto; }
-.opening-calligraphy .motto { height: 84%; width: auto; margin-top: 3%; opacity: .86; }
+.opening-calligraphy img {
+  max-width: none;
+  width: auto;
+  filter: brightness(0) invert(1) drop-shadow(0 3px 22px rgba(0,0,0,.5));
+}
+.opening-calligraphy .tan-issen {
+  grid-column: 1;
+  justify-self: end;
+  align-self: start;
+  margin-right: clamp(10px, 1.6vw, 30px);
+  height: var(--calli-h);
+}
+.opening-calligraphy .motto {
+  grid-column: 3;
+  justify-self: start;
+  align-self: start;
+  margin-left: clamp(10px, 1.6vw, 30px);
+  margin-top: 0;
+  height: var(--calli-h);
+  opacity: .94;
+}
 
 .opening-note {
-  margin: clamp(30px, 4vh, 52px) 0 0;
+  max-width: min(560px, 100%);
+  margin: clamp(30px, 4vh, 52px) auto 0;
   font-size: clamp(15px, 1.15vw, 17px);
   line-height: 2.15;
   letter-spacing: .06em;
@@ -860,7 +883,7 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
 
 @media (max-width: 900px) {
   .opening { height: 175svh; }
-  .opening-calligraphy { height: min(46vh, 400px); gap: 18px; }
+  .opening-calligraphy { --calli-h: min(50vh, 430px); --gap-w: clamp(170px, 26vw, 280px); }
   .opening-note { font-size: 15px; line-height: 2.05; }
 }
 
@@ -871,7 +894,7 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
     background-image: image-set(url("assets/dojo-hero-sp.webp") type("image/webp"),
                                 url("assets/dojo-hero-sp.jpg") type("image/jpeg"));
     transform-origin: 50% 40%;             /* 縦構図での神棚の位置 */
-    transform: scale(calc(1 + (.34 * var(--p))));
+    transform: scale(calc(1 + (.26 * var(--p))));
   }
   .opening-mark { width: 112px; margin-bottom: 46px; }
   .opening-frame-name { padding-top: 30px; }
@@ -879,8 +902,8 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
   .opening-frame-name h1 { font-size: clamp(27px, 8vw, 34px); letter-spacing: .14em; text-indent: .14em; }
   .opening-frame-name .roman { margin-top: 14px; font-size: 9px; letter-spacing: .24em; text-indent: .24em; }
   .opening-frame-name .location { margin-top: 18px; font-size: 12px; }
-  .opening-calligraphy { height: min(40vh, 340px); gap: 10px; }
-  .opening-calligraphy .motto { height: 80%; }
+  .opening-calligraphy { --calli-h: min(38vh, 320px); --gap-w: clamp(126px, 36vw, 168px); }
+  .opening-calligraphy .motto { height: var(--calli-h); }
   .opening-note { margin-top: 26px; font-size: 14px; letter-spacing: .04em; line-height: 2; }
   .opening .scroll-cue { bottom: 22px; }
 }
