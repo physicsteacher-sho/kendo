@@ -810,8 +810,10 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
 .opening-calligraphy {
   --calli-h: min(56vh, 500px);
   --gap-w: clamp(250px, 24vw, 440px);
+  --calli-mg: clamp(10px, 1.6vw, 30px);
+  --tan-r: 1;
   display: grid;
-  grid-template-columns: 1fr var(--gap-w) 1fr;
+  grid-template-columns: minmax(0, 1fr) var(--gap-w) minmax(0, 1fr);
   grid-template-rows: var(--calli-h);
   width: min(1180px, 100%);
   height: var(--calli-h);
@@ -825,14 +827,14 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
   grid-column: 1;
   justify-self: end;
   align-self: start;
-  margin-right: clamp(10px, 1.6vw, 30px);
-  height: var(--calli-h);
+  margin-right: var(--calli-mg);
+  height: calc(var(--calli-h) * var(--tan-r));
 }
 .opening-calligraphy .motto {
   grid-column: 3;
   justify-self: start;
   align-self: start;
-  margin-left: clamp(10px, 1.6vw, 30px);
+  margin-left: var(--calli-mg);
   margin-top: 0;
   height: var(--calli-h);
   opacity: .94;
@@ -902,7 +904,12 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
   .opening-frame-name h1 { font-size: clamp(27px, 8vw, 34px); letter-spacing: .14em; text-indent: .14em; }
   .opening-frame-name .roman { margin-top: 14px; font-size: 9px; letter-spacing: .24em; text-indent: .24em; }
   .opening-frame-name .location { margin-top: 18px; font-size: 12px; }
-  .opening-calligraphy { --calli-h: min(38vh, 320px); --gap-w: clamp(126px, 36vw, 168px); }
+  .opening-calligraphy {
+    --calli-h: min(33vh, 280px);
+    --gap-w: clamp(112px, 30.5vw, 148px);   /* 実測：神棚は画面幅の約30% */
+    --calli-mg: 6px;
+    --tan-r: .86;                            /* 鍛一閃は3文字ぶん幅を食うので低めに */
+  }
   .opening-calligraphy .motto { height: var(--calli-h); }
   .opening-note { margin-top: 26px; font-size: 14px; letter-spacing: .04em; line-height: 2; }
   .opening .scroll-cue { bottom: 22px; }
