@@ -805,37 +805,31 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
   opacity: calc((var(--p) - .46) / .34);
   transform: translateY(calc((1 - var(--p)) * 30px));
 }
-/* 中央の列を空けて神棚を避け、書は左右に振り分ける。
-   行の高さを明示し、子の高さも実寸で与える（％だと高さが循環参照になる） */
+/* 書はそれぞれの中心位置を直接指定する。
+   列で組むと中身の幅に引きずられて位置がずれるため、絶対配置で中心を固定する。 */
 .opening-calligraphy {
   --calli-h: min(56vh, 500px);
-  --gap-w: clamp(250px, 24vw, 440px);
-  --calli-mg: clamp(10px, 1.6vw, 30px);
-  --tan-r: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--gap-w) minmax(0, 1fr);
-  grid-template-rows: var(--calli-h);
-  width: min(1180px, 100%);
+  --tan-x: 31%;      /* 鍛一閃の中心 */
+  --motto-x: 66%;    /* 「一瞬のひらめきは…」の中心 */
+  --tan-r: 1;        /* 鍛一閃の高さ比 */
+  position: relative;
+  width: 100%;
   height: var(--calli-h);
 }
 .opening-calligraphy img {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
   max-width: none;
   width: auto;
   filter: brightness(0) invert(1) drop-shadow(0 3px 22px rgba(0,0,0,.5));
 }
 .opening-calligraphy .tan-issen {
-  grid-column: 1;
-  justify-self: end;
-  align-self: start;
-  margin-right: var(--calli-mg);
+  left: var(--tan-x);
   height: calc(var(--calli-h) * var(--tan-r));
 }
 .opening-calligraphy .motto {
-  grid-column: 3;
-  justify-self: start;
-  align-self: start;
-  margin-left: var(--calli-mg);
-  margin-top: 0;
+  left: var(--motto-x);
   height: var(--calli-h);
   opacity: .94;
 }
@@ -885,7 +879,7 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
 
 @media (max-width: 900px) {
   .opening { height: 175svh; }
-  .opening-calligraphy { --calli-h: min(50vh, 430px); --gap-w: clamp(170px, 26vw, 280px); }
+  .opening-calligraphy { --calli-h: min(50vh, 430px); --tan-x: 32%; --motto-x: 67%; }
   .opening-note { font-size: 15px; line-height: 2.05; }
 }
 
@@ -906,11 +900,10 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
   .opening-frame-name .location { margin-top: 18px; font-size: 12px; }
   .opening-calligraphy {
     --calli-h: min(33vh, 280px);
-    --gap-w: clamp(112px, 30.5vw, 148px);   /* 実測：神棚は画面幅の約30% */
-    --calli-mg: 6px;
-    --tan-r: .86;                            /* 鍛一閃は3文字ぶん幅を食うので低めに */
+    --tan-x: 32.5%;    /* 実測した赤線の位置 */
+    --motto-x: 70%;
+    --tan-r: .86;      /* 鍛一閃は3文字ぶん幅を食うので低めに */
   }
-  .opening-calligraphy .motto { height: var(--calli-h); }
   .opening-note { margin-top: 26px; font-size: 14px; letter-spacing: .04em; line-height: 2; }
   .opening .scroll-cue { bottom: 22px; }
 }
