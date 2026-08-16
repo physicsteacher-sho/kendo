@@ -683,17 +683,21 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
 
 .opening {
   --p: 0;
+  --vh: 100svh;              /* JS が実ビューポート高で上書きする */
   position: relative;
-  height: 180svh;
+  height: calc(var(--vh) * 1.8);
   background: var(--ink);
 }
 
 .opening-stage {
   position: sticky;
   top: 0;
-  height: 100svh;
+  height: var(--vh);
   overflow: hidden;
   isolation: isolate;
+  /* 合成レイヤーに固定して、スクロール中の再描画を避ける */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* --- 写真：幟を中心に寄る --- */
@@ -701,14 +705,16 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url("assets/dojo-hero.jpg");
-  background-image: image-set(url("assets/dojo-hero.webp") type("image/webp"),
-                              url("assets/dojo-hero.jpg") type("image/jpeg"));
-  background-size: cover;
-  background-position: center center;
+  overflow: hidden;
+}
+.opening-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
   transform-origin: 50% 42%;               /* 神棚の位置 */
-  transform: scale(calc(1 + (.40 * var(--p))));
-  will-change: transform;
+  /* translateZ を添えて GPU 合成に乗せる（background-size より軽い） */
+  transform: scale(calc(1 + (.40 * var(--p)))) translateZ(0);
 }
 
 /* --- 暗転：進むほど沈む --- */
@@ -746,8 +752,9 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
 /* 場面1：名乗り */
 .opening-frame-name {
   opacity: calc(1 - (var(--p) / .38));
-  transform: translateY(calc(var(--p) * -46px));
+  transform: translateY(calc(var(--p) * -46px)) translateZ(0);
 }
+.opening-frame-words { transform: translateY(calc((1 - var(--p)) * 30px)) translateZ(0); }
 /* 明るい床の上でも沈まないよう、名乗りの背後だけ静かに落とす */
 .opening-frame-name { padding-top: clamp(24px, 5vh, 68px); }
 
@@ -803,7 +810,6 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
 /* 場面2：書 */
 .opening-frame-words {
   opacity: calc((var(--p) - .46) / .34);
-  transform: translateY(calc((1 - var(--p)) * 30px));
 }
 /* 書はそれぞれの中心位置を直接指定する。
    列で組むと中身の幅に引きずられて位置がずれるため、絶対配置で中心を固定する。 */
@@ -878,19 +884,16 @@ main section[id] { scroll-margin-top: calc(var(--header-h-scrolled) + 24px); }
 }
 
 @media (max-width: 900px) {
-  .opening { height: 175svh; }
+  .opening { height: calc(var(--vh) * 1.75); }
   .opening-calligraphy { --calli-h: min(50vh, 430px); --tan-x: 32%; --motto-x: 67%; }
   .opening-note { font-size: 15px; line-height: 2.05; }
 }
 
 @media (max-width: 620px) {
-  .opening { height: 168svh; }
-  .opening-photo {
-    background-image: url("assets/dojo-hero-sp.jpg");
-    background-image: image-set(url("assets/dojo-hero-sp.webp") type("image/webp"),
-                                url("assets/dojo-hero-sp.jpg") type("image/jpeg"));
+  .opening { height: calc(var(--vh) * 1.68); }
+  .opening-photo img {
     transform-origin: 50% 40%;             /* 縦構図での神棚の位置 */
-    transform: scale(calc(1 + (.26 * var(--p))));
+    transform: scale(calc(1 + (.26 * var(--p)))) translateZ(0);
   }
   .opening-mark { width: 112px; margin-bottom: 46px; }
   .opening-frame-name { padding-top: 30px; }

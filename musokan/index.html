@@ -47,7 +47,14 @@
   <main id="main-content">
     <section class="opening" id="top" aria-labelledby="hero-title">
       <div class="opening-stage">
-        <div class="opening-photo" data-opening-photo aria-hidden="true"></div>
+        <div class="opening-photo" data-opening-photo aria-hidden="true">
+          <picture>
+            <source media="(max-width: 620px)" srcset="assets/dojo-hero-sp.webp" type="image/webp" />
+            <source media="(max-width: 620px)" srcset="assets/dojo-hero-sp.jpg" type="image/jpeg" />
+            <source srcset="assets/dojo-hero.webp" type="image/webp" />
+            <img src="assets/dojo-hero.jpg" width="1920" height="1200" alt="" fetchpriority="high" decoding="async" />
+          </picture>
+        </div>
         <div class="opening-veil" data-opening-veil aria-hidden="true"></div>
         <div class="hero-grain" aria-hidden="true"></div>
 

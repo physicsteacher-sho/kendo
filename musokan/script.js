@@ -66,11 +66,22 @@ if ('IntersectionObserver' in window) {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   let ticking = false;
 
+  // iOS はスクロール中にアドレスバーが伸縮する。svh は小さい方に固定されるため
+  // sticky の高さと実ビューポートがずれて引っかかる。実寸を測って固定する。
+  let vh = 0;
+  const setVh = () => {
+    const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    // バーの伸縮（数十px）では測り直さない。回転など大きな変化のときだけ更新する。
+    if (Math.abs(h - vh) < 120) return;
+    vh = h;
+    opening.style.setProperty('--vh', h + 'px');
+  };
+
   const update = () => {
     ticking = false;
     if (reduce.matches) { opening.style.removeProperty('--p'); return; }
     const rect = opening.getBoundingClientRect();
-    const travel = opening.offsetHeight - window.innerHeight;
+    const travel = opening.offsetHeight - (vh || window.innerHeight);
     if (travel <= 0) { opening.style.setProperty('--p', '0'); return; }
     const p = Math.min(Math.max(-rect.top / travel, 0), 1);
     opening.style.setProperty('--p', p.toFixed(4));
@@ -83,7 +94,9 @@ if ('IntersectionObserver' in window) {
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
+  window.addEventListener('resize', () => { setVh(); onScroll(); });
+  window.addEventListener('orientationchange', () => { setVh(); onScroll(); });
   reduce.addEventListener('change', update);
+  setVh();
   update();
 })();
